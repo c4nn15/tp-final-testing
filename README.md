@@ -1,11 +1,18 @@
 # AutoRent — Sistema de Alquiler de Vehículos
 
-## Objetivo del Software
-AutoRent es un sistema de escritorio desarrollado en Python que permite gestionar 
-el alquiler de vehículos de una agencia. Permite registrar vehículos, clientes, 
+---
+
+## 1. Objetivo del Software
+
+AutoRent es un sistema de escritorio desarrollado en Python que permite gestionar
+el alquiler de vehículos de una agencia. Permite registrar vehículos, clientes,
 procesar alquileres y devoluciones, calculando el costo total automáticamente.
 
-## Requerimientos Funcionales
+---
+
+## 2. Requerimientos Implementados
+
+### Funcionales
 - RF01: Registrar vehículos con patente, modelo y tarifa diaria.
 - RF02: Registrar clientes con DNI y nombre.
 - RF03: Alquilar un vehículo disponible a un cliente por N días.
@@ -14,26 +21,147 @@ procesar alquileres y devoluciones, calculando el costo total automáticamente.
 - RF06: Listar clientes registrados.
 - RF07: Listar alquileres activos.
 
-## Requerimientos No Funcionales
+### No Funcionales
 - RNF01: Interfaz gráfica de escritorio (CustomTkinter).
 - RNF02: Validación de datos en todos los formularios.
 - RNF03: Feedback visual inmediato ante errores o éxitos.
 - RNF04: El sistema debe ejecutarse en Python 3.10+.
 - RNF05: Navegación por secciones sin recargar la aplicación.
 
-## Tecnologías utilizadas
-- Python 3.x
-- CustomTkinter (interfaz gráfica)
+---
 
-## Estructura del proyecto
-- `modelo.py` — Clases de dominio: Vehiculo, Cliente, Alquiler, Agencia.
-- `componentes.py` — Componentes visuales reutilizables (Table, botones, campos).
-- `ui.py` — Páginas de la interfaz (Vehículos, Clientes, Alquilar, Devolver).
-- `main.py` — Punto de entrada, construcción de la ventana principal.
-- `docs/` — Documentación, UML y plan de pruebas.
+## 3. Código Fuente
 
-## Cómo ejecutar
+| Archivo | Descripción |
+|---------|-------------|
+| `modelo.py` | Clases de dominio: Vehiculo, Cliente, Alquiler, Agencia. |
+| `componentes.py` | Componentes visuales reutilizables (Table, botones, campos). |
+| `ui.py` | Páginas de la interfaz (Vehículos, Clientes, Alquilar, Devolver). |
+| `main.py` | Punto de entrada, construcción de la ventana principal. |
+
+---
+
+## 4. Artefactos UML
+
+### Diagrama de Casos de Uso
+
+```mermaid
+flowchart TD
+    Actor["👤 Empleado de Agencia"]
+
+    Actor --> CU1["Registrar Vehículo"]
+    Actor --> CU2["Registrar Cliente"]
+    Actor --> CU3["Alquilar Vehículo"]
+    Actor --> CU4["Devolver Vehículo"]
+    Actor --> CU5["Listar Vehículos"]
+    Actor --> CU6["Listar Clientes"]
+    Actor --> CU7["Listar Alquileres Activos"]
+
+    CU3 --> CU3a["Validar disponibilidad"]
+    CU3 --> CU3b["Calcular costo estimado"]
+    CU4 --> CU4a["Calcular costo final"]
+    CU4 --> CU4b["Liberar vehículo"]
+```
+
+### Diagrama de Clases
+
+```mermaid
+classDiagram
+    class Vehiculo {
+        +String patente
+        +String modelo
+        +float tarifa_diaria
+        +String estado
+        +esta_disponible() bool
+        +marcar_alquilado()
+        +marcar_disponible()
+    }
+
+    class Cliente {
+        +String dni
+        +String nombre
+    }
+
+    class Alquiler {
+        +Vehiculo vehiculo
+        +Cliente cliente
+        +int dias
+        +calcular_costo() float
+    }
+
+    class Agencia {
+        -List _vehiculos
+        -List _clientes
+        -List _alquileres
+        +registrar_vehiculo(patente, modelo, tarifa) Vehiculo
+        +buscar_vehiculo(patente) Vehiculo
+        +listar_vehiculos() List
+        +registrar_cliente(dni, nombre) Cliente
+        +buscar_cliente(dni) Cliente
+        +listar_clientes() List
+        +alquilar_vehiculo(patente, dni, dias) Alquiler
+        +devolver_vehiculo(patente) tuple
+        +listar_alquileres() List
+    }
+
+    Agencia "1" --> "*" Vehiculo : gestiona
+    Agencia "1" --> "*" Cliente : gestiona
+    Agencia "1" --> "*" Alquiler : registra
+    Alquiler --> Vehiculo : usa
+    Alquiler --> Cliente : pertenece a
+```
+
+### Diagrama de Secuencia — Flujo de Alquiler
+
+```mermaid
+sequenceDiagram
+    actor Empleado
+    participant UI as PageAlquilar
+    participant Agencia
+    participant Vehiculo
+    participant Alquiler
+
+    Empleado->>UI: Ingresa patente, DNI y días
+    Empleado->>UI: Clic "Confirmar alquiler"
+    UI->>Agencia: alquilar_vehiculo(patente, dni, dias)
+    Agencia->>Agencia: buscar_vehiculo(patente)
+    Agencia->>Agencia: buscar_cliente(dni)
+    Agencia->>Vehiculo: esta_disponible()
+    Vehiculo-->>Agencia: True
+    Agencia->>Vehiculo: marcar_alquilado()
+    Agencia->>Alquiler: new Alquiler(vehiculo, cliente, dias)
+    Alquiler-->>Agencia: objeto alquiler
+    Agencia-->>UI: objeto alquiler
+    UI-->>Empleado: Mensaje "Alquiler OK - $costo estimado"
+```
+
+---
+
+## 5. Ejecutable
+
+Descargá el instalador desde la sección [Releases](../../releases).
+
+---
+
+## 6. Cómo ejecutar (desde el código fuente)
+
 ```bash
 pip install customtkinter
 python main.py
 ```
+
+---
+
+## 7. Documentación de Testing
+
+| Documento | Descripción |
+|-----------|-------------|
+| [Prueba de Componentes](docs/pruebas/01_prueba_componentes.md) | Casos unitarios por clase |
+| [Prueba de Integración](docs/pruebas/02_prueba_integracion.md) | Flujos entre clases |
+| [Prueba de Caja Negra](docs/pruebas/03_prueba_caja_negra.md) | Particiones y valores límite |
+| [Prueba de Rendimiento](docs/pruebas/04_prueba_rendimiento.md) | Carga y tiempo de respuesta |
+| [Prueba de Interfaz](docs/pruebas/05_prueba_interfaz.md) | Comportamiento visual |
+| [Prueba de Camino](docs/pruebas/06_prueba_camino.md) | Caja blanca / ciclo |
+| [Plan de Ejecución](docs/ejecucion/plan_ejecucion.md) | Cronograma y ambiente |
+| [Resultados](docs/ejecucion/resultados_ejecucion.md) | Resultados reales |
+| [Pruebas E2E](docs/e2e/pruebas_e2e.md) | Flujos completos de usuario |
