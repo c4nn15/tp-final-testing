@@ -151,3 +151,20 @@ python main.py
 ```
 
 ---
+
+## Documentación de Testing
+
+| Documento | Descripción |
+|-----------|-------------|
+| [Diagrama de Clases](docs/uml_clases.md) | UML clases del sistema |
+| [Casos de Uso](docs/uml_casos_uso.md) | UML casos de uso |
+| [Secuencia](docs/uml_secuencia.md) | Diagrama de secuencia |
+| [Prueba de Componentes](docs/pruebas/01_prueba_componentes.md) | Casos unitarios por clase |
+| [Prueba de Integración](docs/pruebas/02_prueba_integracion.md) | Flujos entre clases |
+| [Prueba de Caja Negra](docs/pruebas/03_prueba_caja_negra.md) | Particiones y valores límite |
+| [Prueba de Rendimiento](docs/pruebas/04_prueba_rendimiento.md) | Carga y tiempo de respuesta |
+| [Prueba de Interfaz](docs/pruebas/05_prueba_interfaz.md) | Comportamiento visual |
+| [Prueba de Camino](docs/pruebas/06_prueba_camino.md) | Caja blanca / ciclo |
+| [Plan de Ejecución](docs/ejecucion/plan_ejecucion.md) | Cronograma y ambiente |
+| [Resultados](docs/ejecucion/resultados_ejecucion.md) | Resultados reales |
+| [Pruebas E2E](docs/e2e/pruebas_e2e.md) | Flujos completos de usuario |
