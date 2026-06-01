@@ -156,7 +156,7 @@ python main.py
 
 | Documento | Descripción |
 |-----------|-------------|
-| [Diagrama de Clases](doc/uml_clases.md) | UML clases del sistema |
+| [Diagrama de Clases](doc/uml_clase.md) | UML clases del sistema |
 | [Casos de Uso](doc/uml_casos_uso.md) | UML casos de uso |
 | [Secuencia](doc/uml_secuencia.md) | Diagrama de secuencia |
 | [Prueba de Componentes](doc/pruebas/01_prueba_componentes.md) | Casos unitarios por clase |
