@@ -42,7 +42,7 @@ class Alquiler:
         self.cliente  = cliente
         self.dias     = dias
 
-    def calcular_costo(self): return self.dias * self.vehiculo.tarifa_diaria
+    def calcular_costo(self): return self.dias * 0
 
 
 class Agencia:
