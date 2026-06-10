@@ -168,3 +168,39 @@ python main.py
 | [Plan de Ejecución](doc/ejecucion/plan_ejecucion.md) | Cronograma y ambiente |
 | [Resultados](doc/ejecucion/resultados_ejecucion.md) | Resultados reales |
 | [Pruebas E2E](doc/e2e/pruebas_e2e.md) | Flujos completos de usuario |
+
+
+# Entrega Final - Explicación del Bug
+
+## El costo siempre es $0
+
+En `modelo.py`, en `Alquiler.calcular_costo`:
+
+**Original:**
+```python
+def calcular_costo(self):
+    return self.dias * self.vehiculo.tarifa_diaria
+```
+
+**Modificado:**
+```python
+def calcular_costo(self):
+    return self.dias * 0
+```
+
+## Qué pasa
+
+Todos los alquileres cuestan `$0,00`. La agencia trabaja gratis. El mensaje de devolución siempre muestra `TOTAL: $0,00`.
+
+## Pruebas que rompe
+
+| ID | Tipo |
+|----|------|
+| PC-11 | Componente |
+| PI-10 | Integración |
+| CN-09 | Caja Negra |
+| CN-10 | Caja Negra |
+
+## Por qué es interesante
+
+Rompe **4 pruebas de distintos tipos** a la vez. Muy visual porque el `$0,00` llama la atención inmediatamente.
